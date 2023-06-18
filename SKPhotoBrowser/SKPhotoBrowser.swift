@@ -20,6 +20,8 @@ open class SKPhotoBrowser: UIViewController {
 	open var autoHideControllsfadeOutDelay: Double = 4.0
     open var shouldAutoHideControlls: Bool = true
     
+    open var imageView = UIImageView()
+    
     public var toolActionButton: UIBarButtonItem {
         return toolbar.toolActionButton
     }
@@ -93,6 +95,8 @@ open class SKPhotoBrowser: UIViewController {
         self.initPageIndex = self.currentPageIndex
         animator.senderOriginImage = photos[currentPageIndex].underlyingImage
         animator.senderViewForAnimation = photos[currentPageIndex] as? UIView
+        
+        imageView.image = photos[currentPageIndex].underlyingImage
     }
     
     func setup() {
@@ -541,6 +545,12 @@ internal extension SKPhotoBrowser {
 // MARK: - Private Function
 private extension SKPhotoBrowser {
     func configureAppearance() {
+        imageView.frame = view.bounds
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        
+        view.addSubview(imageView)
+        
         let blurEffect = UIBlurEffect(style: .dark)
         let blurView = UIVisualEffectView(effect: blurEffect)
         blurView.frame = view.bounds
@@ -625,6 +635,7 @@ extension SKPhotoBrowser: UIScrollViewDelegate {
         if currentPageIndex != previousCurrentPage {
             delegate?.didShowPhotoAtIndex?(self, index: currentPageIndex)
             paginationView.update(currentPageIndex)
+            self.imageView.image = photos[self.currentPageIndex].underlyingImage
         }
     }
     
