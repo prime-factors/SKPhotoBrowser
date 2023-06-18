@@ -541,9 +541,14 @@ internal extension SKPhotoBrowser {
 // MARK: - Private Function
 private extension SKPhotoBrowser {
     func configureAppearance() {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.frame = view.bounds
+
         view.backgroundColor = bgColor
         view.clipsToBounds = true
         view.isOpaque = false
+        view.addSubview(blurView)
         
         if #available(iOS 11.0, *) {
             view.accessibilityIgnoresInvertColors = true
