@@ -639,7 +639,9 @@ extension SKPhotoBrowser: UIScrollViewDelegate {
         if currentPageIndex != previousCurrentPage {
             delegate?.didShowPhotoAtIndex?(self, index: currentPageIndex)
             paginationView.update(currentPageIndex)
-            self.imageView.image = photos[self.currentPageIndex].underlyingImage
+            UIView.transition(with: imageView, duration: 1.0, options: .transitionCrossDissolve, animations: {
+                self.imageView.image = self.photos[self.currentPageIndex].underlyingImage
+            }, completion: nil)
         }
     }
     
